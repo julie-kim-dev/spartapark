@@ -1,4 +1,4 @@
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import { Role } from '../types/userRole.type';
 
@@ -21,4 +21,10 @@ export class User {
 
   @Column({ type: 'enum', enum: Role, default: Role.USER }) // 기본 타입은 USER
   role: Role;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

@@ -26,7 +26,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt')) // 이 데코레이터는 JWT 인증이 된 유저에 한해서 해당 API를 호출하게 해주겠다는 뜻
   @Get('info')
   getInfo(@UserInfo() user: User) {
-    return { id: user.id, email: user.email, name: user.name };
+    return { id: user.id, email: user.email, name: user.name, role: user.role };
   }
   //위에서 Passport를 활용해서 JwtStrategy를 저희가 직접 만들었었죠? 이것을 통해서 인증된 유저만 getEmail API를 호출할 수 있게 됩니다. 로그인 하지 않은 유저는 해당 API를 부를 수 없음 -> 유저인포 호출
 }
