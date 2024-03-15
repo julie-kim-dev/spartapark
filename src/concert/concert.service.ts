@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 import {
   BadRequestException,
@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { UpdateConcertDto } from './dto/update-concert.dto';
 import { Concert } from './entities/concert.entity';
+import { FindAllSearchConcertDto } from './dto/findAll-search-concert.dto';
 
 @Injectable()
 export class ConcertService {
@@ -18,10 +19,15 @@ export class ConcertService {
     private readonly concertRepository: Repository<Concert>,
   ) {}
 
-  async findAll(): Promise<Concert[]> {
-    return await this.concertRepository.find({
+  async findAll({ keyword }: FindAllSearchConcertDto): Promise<Concert[]> {
+    const concert = await this.concertRepository.find({
       select: ['id', 'title'],
+      where: {
+        ...(keyword && { title: Like(`%${keyword}%`) }),
+      },
     });
+
+    return concert;
   }
 
   async findOne(id: number) {
